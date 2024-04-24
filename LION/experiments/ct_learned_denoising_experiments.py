@@ -19,7 +19,17 @@ from LION.data_loaders.deteCT import deteCT
 
 from LION.experiments.ct_experiments import Experiment
 
-class ExperimentalNoiseDenoising(Experiment):
+
+class CTNoiseExperiment(Experiment):
+    def __init__(self, experiment_params=None, dataset="2DeteCT", datafolder=None):
+        dataset = "2DeteCT"
+        if dataset != "2DeteCT":
+            raise ValueError(
+                "Benchmarking experiments only supports 2DeteCT dataset, currently"
+            )
+        super().__init__(experiment_params, dataset, datafolder)
+
+class ExperimentalNoiseDenoising(CTNoiseExperiment):
 
     def __init__(self, experiment_params=None, dataset="2DeteCT", datafolder=None):
         super().__init__(experiment_params, dataset, datafolder)
@@ -45,7 +55,7 @@ class ExperimentalNoiseDenoising(Experiment):
         
         return param
 
-class ArtificialNoiseDenoising(Experiment):
+class ArtificialNoiseDenoising(CTNoiseExperiment):
 
     def __init__(self, experiment_params=None, dataset="2DeteCT", datafolder=None):
         super().__init__(experiment_params, dataset, datafolder)
@@ -67,7 +77,11 @@ class ArtificialNoiseDenoising(Experiment):
         # Change the data loader to be sino2sino
         param.data_loader_params.task = "sino2sino"
         param.data_loader_params.input_mode = "mode2"
-        # TODO MK: Look into how to set up the noise simulation in the best way
         param.data_loader_params.target_mode = "mode2"
+
+        param.data_loader_params.add_noise = True
+        param.data_loader_params.noise_params = LIONParameter()
+        param.data_loader_params.noise_params.I0 = 10000
+        param.data_loader_params.noise_params.cross_talk = 0.05 #from XCIST
         
         return param

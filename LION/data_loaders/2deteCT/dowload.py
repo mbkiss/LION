@@ -7,11 +7,12 @@
 
 
 import subprocess
+import pathlib #NEW
 from LION.utils.paths import DETECT_PATH
 from LION.utils.utils import run_cmd
 
 
-storage_path = DETECT_PATH
+storage_path = pathlib.Path("/export/scratch3/mbk/LION/datasets/raw/2detect") #DETECT_PATH
 file_ids = {3723295: [i for i in range(0, 7)], 4121926: [i for i in range(7, 10)]}
 
 sinograms_ids = {

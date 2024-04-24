@@ -34,9 +34,9 @@ torch.cuda.set_device(device)
 savefolder = pathlib.Path("/export/scratch3/mbk/LION/results_mbk/trained_models/test_debugging/")
 
 # Filenames and patters
-final_result_fname = savefolder.joinpath("LPD_FullData.pt")
-checkpoint_fname = "LPD_FullData_check_*.pt"  # if you use LION checkpoiting, remember to have wildcard (*) in the filename
-validation_fname = savefolder.joinpath("LPD_FullData_min_val.pt")
+final_result_fname = savefolder.joinpath("LISTA_FullData.pt")
+checkpoint_fname = "LISTA_FullData_check_*.pt"  # if you use LION checkpoiting, remember to have wildcard (*) in the filename
+validation_fname = savefolder.joinpath("LISTA_FullData_min_val.pt")
 
 #%% 2 - Define experiment
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,23 +90,23 @@ testing_dataloader = DataLoader(testing_data, batch_size, shuffle=False)
 #%% 5 - Load Model
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # We show here how to do it for LPD, but you can do it for any model in LION
-from LION.models.iterative_unrolled.LPD import LPD
+from LION.models.iterative_unrolled.LISTA import LISTA
 
 # If you are happy with the default parameters, you can just do
-model = LPD(experiment.geo).to(device)
+model = LISTA(experiment.geo).to(device)
 # Remember to use `experiment.geo` as an input, so the model knows the operator
 
 
 # If you want to modify the default parameters, you can do it like this
 # Default model is already from the paper. We can get the config of the detault by
-default_parameters = LPD.default_parameters()
+default_parameters = LISTA.default_parameters()
 
 # You can modify the parameters as wished here.
-default_parameters.learned_step = True
-default_parameters.step_positive = True
-default_parameters.n_iters = 5
+#default_parameters.learned_step = True
+#default_parameters.step_positive = True
+#default_parameters.n_iters = 5
 # Now create the actual model. Remember to use `experiment.geo` as an input, so the model knows the operator
-model = LPD(experiment.geo, default_parameters).to(device)
+model = LISTA(experiment.geo, default_parameters).to(device)
 
 
 #%% 6 - Define Loss and Optimizer
@@ -175,7 +175,7 @@ solver.save_final_results(final_result_fname)
 # Save the training.
 plt.figure()
 plt.semilogy(solver.train_loss)
-plt.savefig("loss_FullData.png")
+plt.savefig("loss_LISTA_FullData.png")
 
 # Now your savefolder should have the min validation and the final result.
 

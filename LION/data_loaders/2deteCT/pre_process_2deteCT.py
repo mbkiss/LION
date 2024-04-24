@@ -12,6 +12,9 @@ from tqdm import tqdm
 from LION.utils.paths import DETECT_PATH, DETECT_PROCESSED_DATASET_PATH
 
 
+DETECT_PATH = Path("export/scratch3/mbk/LION/datasets/raw/2detect")
+DETECT_PROCESSED_DATASET_PATH = Path("export/scratch3/mbk/LION/datasets/processed/2detect/")
+
 def format_slice_index(index: int) -> str:
     str_index = str(index)
     while len(str_index) < 5:

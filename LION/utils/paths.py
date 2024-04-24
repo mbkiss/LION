@@ -4,7 +4,7 @@ import pathlib
 # If you don't have access to the paths and you are part of the research group, ask Ander Biguri about it.
 # Otherwise, feel free to change those to your paths.
 
-LION_DATA_PATH = pathlib.Path("/store/LION/datasets/")
+LION_DATA_PATH = pathlib.Path("/export/scratch3/mbk/LION/datasets")
 LUNA_DATASET_PATH = LION_DATA_PATH.joinpath("raw/LUNA16")
 WALNUT_DATASET_PATH = LION_DATA_PATH.joinpath("raw/walnuts")
 LIDC_IDRI_PATH = LION_DATA_PATH.joinpath("raw/LIDC-IDRI")
