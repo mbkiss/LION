@@ -1,0 +1,35 @@
+{
+    "detector": {
+        "subsampling": 2,
+        "correction": [
+            1,
+            0
+        ],
+        "n_pixels": 1912,
+        "pixel_physical_size_reference": 0.0748,
+        "pixel_shift": 0,
+        "binning": 1,
+        "pixel_physical_size_corrected": 0.1496,
+        "n_pixels_subsampled": 956,
+        "width": 143.01760000000002,
+        "scaled_pixel_physical_size": 0.6573107422334171
+    },
+    "angular": {
+        "n_angles": 3600,
+        "subsampling": 1
+    },
+    "reconstruction": {
+        "n_pixels": [
+            512,
+            512
+        ],
+        "n_voxels": 512,
+        "SOD": 431.019989,
+        "SDD": 529.000488,
+        "FOV_width": 116.52814274682939,
+        "voxel_size": 0.22759402880240115,
+        "scale_factor": 4.393788383913216,
+        "scaled_SDD": 2324.3161992588225,
+        "scaled_SOD": 1893.810620902602
+    }
+}
