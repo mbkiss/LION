@@ -193,7 +193,7 @@ class LIONmodel(nn.Module, ABC):
         options = LIONParameter()
         # We should always save models with the git hash they were created. Models may change, and if loading at some point breaks
         # we need to at least know exactly when the model was saved, to at least be able to reproduce.
-        options.commit_hash = ai_utils.get_git_revision_hash()
+        options.commit_hash = None
         options.model_name = self.__class__.__name__
         options.model_parameters = self.model_parameters
         if geo:

@@ -31,24 +31,26 @@ device = torch.device("cuda:1")
 torch.cuda.set_device(device)
 
 # Define your data paths
-savefolder = pathlib.Path("/export/scratch3/mbk/LION/results_mbk/trained_models/test_debugging/")
+savefolder = pathlib.Path("/export/scratch3/mbk/LION/trained_models/test_debugging/")
 
 # Filenames and patters
-final_result_fname = savefolder.joinpath("LPD_FullData.pt")
-checkpoint_fname = "LPD_FullData_check_*.pt"  # if you use LION checkpoiting, remember to have wildcard (*) in the filename
-validation_fname = savefolder.joinpath("LPD_FullData_min_val.pt")
+final_result_fname = savefolder.joinpath("LG_Limited90.pt")
+checkpoint_fname = "LG_Limited90_check_*.pt"  # if you use LION checkpoiting, remember to have wildcard (*) in the filename
+validation_fname = savefolder.joinpath("LG_Limited90_min_val.pt")
 
 #%% 2 - Define experiment
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # These are all the experiments we need to run for the benchmarking
 
 # Standard dataset
-experiment = ct_benchmarking.FullDataCTRecon()
+#experiment = ct_benchmarking.FullDataCTRecon()
+
 # Limited angle
 #experiment = ct_benchmarking.LimitedAngle150CTRecon()
 #experiment = ct_benchmarking.LimitedAngle120CTRecon()
-#experiment = ct_benchmarking.LimitedAngle90CTRecon()
+experiment = ct_benchmarking.LimitedAngle90CTRecon()
 #experiment = ct_benchmarking.LimitedAngle60CTRecon()
+
 # Sparse angle
 #experiment = ct_benchmarking.SparseAngle720CTRecon()
 #experiment = ct_benchmarking.SparseAngle360CTRecon()
@@ -56,8 +58,10 @@ experiment = ct_benchmarking.FullDataCTRecon()
 #experiment = ct_benchmarking.SparseAngle120CTRecon()
 #experiment = ct_benchmarking.SparseAngle90CTRecon()
 #experiment = ct_benchmarking.SparseAngle60CTRecon()
+
 # Low dose
 #experiment = ct_benchmarking.LowDoseCTRecon()
+
 # Beam Hardening
 #experiment = ct_benchmarking.BeamHardeningCTRecon()
 
@@ -70,7 +74,7 @@ testing_data = experiment.get_testing_dataset()
 # smaller dataset for testing if this template worksfor you.
 ##############################################################
 # REMOVE THIS CHUNK IN THE FINAL VERSION
-#indices = torch.arange(2800,2900)
+#indices = torch.arange(100)
 #training_data = data_utils.Subset(training_data, indices)
 #validation_data = data_utils.Subset(validation_data, indices)
 #testing_data = data_utils.Subset(testing_data, indices)
@@ -90,24 +94,24 @@ testing_dataloader = DataLoader(testing_data, batch_size, shuffle=False)
 #%% 5 - Load Model
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # We show here how to do it for LPD, but you can do it for any model in LION
-from LION.models.iterative_unrolled.LPD import LPD
+from LION.models.iterative_unrolled.LG import LG
 
 # If you are happy with the default parameters, you can just do
-model = LPD(experiment.geo).to(device)
+model = LG(experiment.geo).to(device)
 # Remember to use `experiment.geo` as an input, so the model knows the operator
 
 
 # If you want to modify the default parameters, you can do it like this
 # Default model is already from the paper. We can get the config of the detault by
-default_parameters = LPD.default_parameters()
+#default_parameters = LPD.default_parameters()
 
 # You can modify the parameters as wished here.
-default_parameters.learned_step = False
-default_parameters.step_positive = False
-default_parameters.n_iters = 5
+#default_parameters.learned_step = False
+#default_parameters.step_positive = False
+#default_parameters.n_iters = 5
 
 # Now create the actual model. Remember to use `experiment.geo` as an input, so the model knows the operator
-model = LPD(experiment.geo, default_parameters).to(device)
+#model = LPD(experiment.geo, default_parameters).to(device)
 
 
 #%% 6 - Define Loss and Optimizer
@@ -168,7 +172,7 @@ solver.set_checkpointing(
 solver.train(epochs)
 
 # delete checkpoints if finished
-solver.clean_checkpoints()
+#solver.clean_checkpoints()
 
 # save final result
 solver.save_final_results(final_result_fname)
@@ -176,7 +180,7 @@ solver.save_final_results(final_result_fname)
 # Save the training.
 plt.figure()
 plt.semilogy(solver.train_loss)
-plt.savefig("loss_LPD_FullData.png")
+plt.savefig("loss_LG_Limited90.png")
 
 # Now your savefolder should have the min validation and the final result.
 

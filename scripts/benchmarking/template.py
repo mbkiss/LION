@@ -102,8 +102,8 @@ model = LPD(experiment.geo).to(device)
 default_parameters = LPD.default_parameters()
 
 # You can modify the parameters as wished here.
-default_parameters.learned_step = True
-default_parameters.step_positive = True
+#default_parameters.learned_step = True
+#default_parameters.step_positive = True
 default_parameters.n_iters = 5
 # Now create the actual model. Remember to use `experiment.geo` as an input, so the model knows the operator
 model = LPD(experiment.geo, default_parameters).to(device)

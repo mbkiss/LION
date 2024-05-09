@@ -27,16 +27,16 @@ def my_ssim(x: torch.tensor, y: torch.tensor):
 #%% 1 - Settingts
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Device
-device = torch.device("cuda:1")
+device = torch.device("cuda:0")
 torch.cuda.set_device(device)
 
 # Define your data paths
-savefolder = pathlib.Path("/export/scratch3/mbk/LION/results_mbk/trained_models/test_debugging/")
+savefolder = pathlib.Path("/export/scratch3/mbk/LION/trained_models/test_debugging/")
 
 # Filenames and patters
-final_result_fname = savefolder.joinpath("FBPUNet_Sparse720.pt")
-checkpoint_fname = "FBPUnet_Sparse720_check_*.pt"  # if you use LION checkpoiting, remember to have wildcard (*) in the filename
-validation_fname = savefolder.joinpath("FBPUnet_Sparse720_min_val.pt")
+final_result_fname = savefolder.joinpath("LG_Sparse360.pt")
+checkpoint_fname = "LG_Sparse360_check_*.pt"  # if you use LION checkpoiting, remember to have wildcard (*) in the filename
+validation_fname = savefolder.joinpath("LG_Sparse360_min_val.pt")
 
 #%% 2 - Define experiment
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,8 +52,8 @@ validation_fname = savefolder.joinpath("FBPUnet_Sparse720_min_val.pt")
 #experiment = ct_benchmarking.LimitedAngle60CTRecon()
 
 # Sparse angle
-experiment = ct_benchmarking.SparseAngle720CTRecon()
-#experiment = ct_benchmarking.SparseAngle360CTRecon()
+#experiment = ct_benchmarking.SparseAngle720CTRecon()
+experiment = ct_benchmarking.SparseAngle360CTRecon()
 #experiment = ct_benchmarking.SparseAngle180CTRecon()
 #experiment = ct_benchmarking.SparseAngle120CTRecon()
 #experiment = ct_benchmarking.SparseAngle90CTRecon()
@@ -94,10 +94,10 @@ testing_dataloader = DataLoader(testing_data, batch_size, shuffle=False)
 #%% 5 - Load Model
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # We show here how to do it for LPD, but you can do it for any model in LION
-from LION.models.post_processing.FBPUNet import FBPUNet
+from LION.models.iterative_unrolled.LG import LG
 
 # If you are happy with the default parameters, you can just do
-model = FBPUNet(experiment.geo).to(device)
+model = LG(experiment.geo).to(device)
 # Remember to use `experiment.geo` as an input, so the model knows the operator
 
 
@@ -180,7 +180,7 @@ solver.save_final_results(final_result_fname)
 # Save the training.
 plt.figure()
 plt.semilogy(solver.train_loss)
-plt.savefig("loss_FBPUNet_Sparse720.png")
+plt.savefig("loss_LG_Sparse360.png")
 
 # Now your savefolder should have the min validation and the final result.
 
